@@ -6,7 +6,10 @@
     "plugin:jsx-a11y/recommended",
     "prettier",
     "prettier/react",
-    "airbnb"
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "react/prop-types": 0,
