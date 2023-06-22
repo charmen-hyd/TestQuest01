@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SimpleMDE Markdown Editor with LaTeX support</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$']]
+        }
+      };
+    </script>
+    <script>
+      function renderMath() {
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          var previewSection = document.getElementById("preview-section");
+          MathJax.typesetPromise([previewSection]).catch(function (err) {
+            previewSection.textContent = err.message;
+          });
+        } else {
+          setTimeout(renderMath, 100);
+        }
+      }
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-chtml.min.js" onload="renderMath()"></script>
+  </head>
+  <body>
+    <textarea id="editor"># hello
+One must add $a^2$ to $b^2$ to $c^2$. Such is life, $$a^2+b^2=c^2$$ Similarly, $\\sum x = X$.</textarea>
+    <button id="preview-button">Preview</button>
+    <div id="preview-section"></div>
+    <script>
+      var simplemde = new SimpleMDE({ element: document.getElementById("editor") });
+      var previewButton = document.getElementById("preview-button");
+      previewButton.addEventListener("click", function() {
+        var markdownText = simplemde.value();        
+        var htmlText = simplemde.markdown(markdownText);
+        var previewSection = document.getElementById("preview-section");
+        previewSection.innerHTML = htmlText;
+        renderMath();
+      });
+    </script>
+  </body>
+</html>
